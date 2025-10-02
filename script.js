@@ -32,18 +32,21 @@ function switchCamera() {
   startCamera();
 }
 
-// Abrir câmera
-startCameraBtn.addEventListener("click", startCamera);
-
-// Criar botão de alternar câmera
+// Criar botão de alternar câmera (se ainda não existir no HTML)
 const switchBtn = document.createElement("button");
-switchBtn.innerText = "Alternar Câmera";
+switchBtn.innerText = "🔄 Alternar Câmera";
 switchBtn.classList.add("switch-btn");
 switchBtn.addEventListener("click", switchCamera);
 document.querySelector(".buttons").appendChild(switchBtn);
 
-// Tirar foto
+// Botões da câmera
+startCameraBtn.addEventListener("click", startCamera);
+
 takePhotoBtn.addEventListener("click", () => {
+  if (!stream) {
+    alert("Abra a câmera primeiro!");
+    return;
+  }
   const ctx = preview.getContext("2d");
   preview.width = camera.videoWidth;
   preview.height = camera.videoHeight;
@@ -51,7 +54,6 @@ takePhotoBtn.addEventListener("click", () => {
   capturedImage = preview.toDataURL("image/png");
 });
 
-// Salvar foto
 savePhotoBtn.addEventListener("click", () => {
   if (!capturedImage) {
     alert("Primeiro tire uma foto!");
