@@ -7,16 +7,40 @@ const gallery = document.getElementById("gallery");
 
 let stream;
 let capturedImage;
+let useFrontCamera = true; // começa na câmera frontal
 
-// Abrir câmera
-startCameraBtn.addEventListener("click", async () => {
+// Função para iniciar câmera
+async function startCamera() {
+  // Para stream anterior
+  if (stream) {
+    stream.getTracks().forEach(track => track.stop());
+  }
+
   try {
-    stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: useFrontCamera ? "user" : "environment" }
+    });
     camera.srcObject = stream;
   } catch (err) {
     alert("Erro ao acessar a câmera: " + err);
   }
-});
+}
+
+// Alternar câmera
+function switchCamera() {
+  useFrontCamera = !useFrontCamera;
+  startCamera();
+}
+
+// Abrir câmera
+startCameraBtn.addEventListener("click", startCamera);
+
+// Criar botão de alternar câmera
+const switchBtn = document.createElement("button");
+switchBtn.innerText = "Alternar Câmera";
+switchBtn.classList.add("switch-btn");
+switchBtn.addEventListener("click", switchCamera);
+document.querySelector(".buttons").appendChild(switchBtn);
 
 // Tirar foto
 takePhotoBtn.addEventListener("click", () => {
@@ -46,7 +70,6 @@ savePhotoBtn.addEventListener("click", () => {
   const deleteBtn = document.createElement("button");
   deleteBtn.innerText = "Excluir ❌";
   deleteBtn.classList.add("delete-btn");
-
   deleteBtn.addEventListener("click", () => {
     gallery.removeChild(container);
   });
@@ -63,19 +86,22 @@ savePhotoBtn.addEventListener("click", () => {
   a.click();
 });
 
+// PWA - Instalação
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
   const btnInstall = document.getElementById('btn-install');
-  btnInstall.style.display = 'block';
+  if (btnInstall) {
+    btnInstall.style.display = 'block';
 
-  btnInstall.addEventListener('click', () => {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      deferredPrompt = null;
-      btnInstall.style.display = 'none';
+    btnInstall.addEventListener('click', () => {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        deferredPrompt = null;
+        btnInstall.style.display = 'none';
+      });
     });
-  });
+  }
 });
