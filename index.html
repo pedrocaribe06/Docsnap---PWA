@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DocSnap</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2B6BE6">
+
+</head>
+
+<script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js')
+    .then(() => console.log('Service Worker registrado com sucesso!'))
+    .catch((err) => console.log('Erro ao registrar SW:', err));
+}
+</script>
+
+
+<body>
+  <header>
+    <h1>📄 DocSnap</h1>
+    <p>Capture e organize seus documentos com facilidade</p>
+  </header>
+
+  <main>
+    <div class="camera-container">
+      <video id="camera" autoplay playsinline></video>
+      <canvas id="preview"></canvas>
+    </div>
+
+    <div class="buttons">
+      <button id="start-camera">Abrir Câmera</button>
+      <button id="take-photo">Tirar Foto</button>
+      <button id="save-photo">Salvar Documento</button>
+    </div>
+
+    <h2>📂 Meus Documentos</h2>
+    <div id="gallery" class="gallery"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
