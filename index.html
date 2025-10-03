@@ -7,7 +7,6 @@
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#2B6BE6">
-
 </head>
 
 <script>
@@ -17,7 +16,6 @@ if ('serviceWorker' in navigator) {
     .catch((err) => console.log('Erro ao registrar SW:', err));
 }
 </script>
-
 
 <body>
   <header>
@@ -39,7 +37,19 @@ if ('serviceWorker' in navigator) {
 
     <h2>📂 Meus Documentos</h2>
     <div id="gallery" class="gallery"></div>
+
+    
+    <h2>📝 Texto Extraído</h2>
+    <div id="ocr-result" class="ocr-result">
+      Nenhum texto extraído ainda.
+    </div>
   </main>
+
+  <!-- Botão de instalação do PWA -->
+  <button id="btn-install" style="display:none; margin: 20px auto; padding: 10px 15px; background:#2B6BE6; color:#fff; border:none; border-radius:5px; cursor:pointer;">
+    📲 Instalar DocSnap
+  </button>
+  
 
   <script src="script.js"></script>
 </body>
