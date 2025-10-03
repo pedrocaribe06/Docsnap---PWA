@@ -81,7 +81,7 @@ savePhotoBtn.addEventListener("click", async () => {
   container.appendChild(deleteBtn);
   gallery.appendChild(container);
 
-  // Baixar imagem
+  // Download do documento
   const a = document.createElement("a");
   a.href = capturedImage;
   a.download = `documento-${Date.now()}.png`; // nome único
@@ -89,7 +89,7 @@ savePhotoBtn.addEventListener("click", async () => {
   a.click();
   document.body.removeChild(a); // remove após o clique
 
-  // API OCR Space para extrair texto
+  // Chamada API OCR Space para extrair texto
   try {
     let blob = await fetch(capturedImage).then(res => res.blob());
     let formData = new FormData();
